@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje del borracho</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <article>
+            <h3 class="neonText">Entrada</h3>
+            <label for="tamTablero">
+                Ancho y alto del tablero:
+            </label>
+            <select name="tamTablero" id="tamTablero" onchange="calcularCasillasYObtenerCentro()">
+                <option value ="0" selected>--Seleccionar--</option>
+                <option value="128">Pequeño</option>
+                <option value="256">Mediano</option>
+                <option value="512">Grande</option>
+            </select>
+
+            <label for="movimientos">
+                Cantidad de movimientos a realizar
+            </label>
+            <input type="number" name="cantMovimientos" id="movimientos">
+            
+        </article>
+        <hr>
+        <article>
+            <h3 class="neonText">Salida</h3>
+            <p id="casillasInf"></p>
+            <canvas id="tablero" width="544" height="544"></canvas>
+            <button onclick="nextTurn()">Siguiente turno</button>
+        </article>
+    </main>
+</body>
+<script src="index.js"></script>
+</html>
