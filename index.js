@@ -12,8 +12,8 @@ var centro = { x: 0, y: 0 }
 let canvas = document.getElementById("tablero")
 
 const nowi = {
-    spriteSelection: {x: 164, y: 3072},
-    dimentions: {x: 27, y: 32}
+    spriteSelection: { x: 164, y: 3072 },
+    dimentions: { x: 27, y: 32 }
 }
 
 const spriteSheet = new Image()
@@ -25,7 +25,7 @@ nowiSheet.src = 'nowisprite.png'
 
 console.log(centro)
 
-function crearCanvas(pixeles) {
+async function crearCanvas(pixeles) {
     console.log(pixeles)
     console.log(pixelesTotales)
 
@@ -40,8 +40,8 @@ function crearCanvas(pixeles) {
         ctx.lineTo(pixelesTotales, index)
     }
 
-    ctx.drawImage(spriteSheet, 192, 0, 64, 64, 128, 320, 64, 64);
-    ctx.drawImage(spriteSheet, 128, 0, 64, 64, 128, 384, 64, 64);
+    await ctx.drawImage(spriteSheet, 192, 0, 64, 64, 128, 320, 64, 64);
+    await ctx.drawImage(spriteSheet, 128, 0, 64, 64, 128, 384, 64, 64);
     // ctx.drawImage(nowiSheet, 164, 3072, nowiSize.x, nowiSize.y, centro.x, centro.y, nowiSize.x, nowiSize.y)
     drawMySprite(ctx, nowiSheet, nowi.spriteSelection, centro, nowi.dimentions)
 
@@ -51,7 +51,7 @@ function crearCanvas(pixeles) {
 
     ctx.closePath()
     ctx.strokeStyle = "#f00"
-    ctx.stroke()
+    await ctx.stroke()
 }
 
 function drawMySprite(cntx, sprite, spriteSelection, positionInCanvas, dimentions) {
@@ -59,11 +59,9 @@ function drawMySprite(cntx, sprite, spriteSelection, positionInCanvas, dimention
 }
 
 function calcularCasillasYObtenerCentro() {
-    const select = document.getElementById("tamTablero")
-
-    pixeles = parseInt(select.value) + size
+    pixeles = 640 + size
     pixelesTotales = pixeles + size
-
+    console.log(pixeles, pixelesTotales)
     casillas = pixeles / size
 
     canvas.width = pixeles
@@ -82,10 +80,46 @@ function calcularCasillasYObtenerCentro() {
     crearCanvas(pixeles)
 }
 
-function nextTurn() {
-    console.log(getRandomInt(4))
+function laMagia() {
+    const cantidad = document.getElementById("movimientos")
+    const simulaciones = getMovimientos(parseInt(cantidad.value))
+    console.log(simulaciones)
 }
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+function getMovimientos(cant) {
+    const sims = []
+    for (let i = 0; i < cant; i++) {
+        const result = []
+        for (let j = 0; j < 10; j++) {
+            result.push(Math.floor(Math.random() * 4))
+        }
+        sims.push(result)
+    }
+
+    return sims.map((element) => {
+        const movimiento = element.map((numero) => {
+            switch (numero) {
+                //Norte, Sur, Este, Oeste
+                case 0:
+                    return "N"
+                case 1:
+                    return "S"
+                case 2:
+                    return "E"
+                case 3:
+                    return "O"
+                default:
+                    break;
+            }
+        }
+        )
+        return movimiento
+    })
 }
+
+function pruebalol() {
+    const coso = document.getElementById("movimientos")
+    console.log(coso.value)
+}
+
+calcularCasillasYObtenerCentro()
