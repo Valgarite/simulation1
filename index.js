@@ -82,8 +82,10 @@ function calcularCasillasYObtenerCentro() {
 
 function laMagia() {
     const cantidad = document.getElementById("movimientos")
-    const simulaciones = getMovimientos(parseInt(cantidad.value))
-    console.log(simulaciones)
+    const movidas = getMovimientos(parseInt(cantidad.value))
+    console.log(movidas)
+    const simMovidas = movimientoAPixeles(centro.x, centro.y, movidas)
+    console.log(simMovidas)
 }
 
 function getMovimientos(cant) {
@@ -117,9 +119,49 @@ function getMovimientos(cant) {
     })
 }
 
-function pruebalol() {
-    const coso = document.getElementById("movimientos")
-    console.log(coso.value)
+function movimientoAPixeles(xInicial, yInicial, simulaciones) {
+    const resultado = simulaciones.map(cardinales => {
+        let movs = [{
+            x: xInicial,
+            y: yInicial
+        }]
+        console.log(cardinales)
+        cardinales.forEach((cardinal) => {
+            const ultimo = movs.length - 1
+            switch (cardinal) {
+                case "N":
+                    movs.push({
+                        x: movs[ultimo].x,
+                        y: movs[ultimo].y + 32,
+                    })
+                    break;
+                case "S":
+                    movs.push({
+                        x: movs[ultimo].x,
+                        y: movs[ultimo].y - 32,
+                    })
+                    break;
+                case "E":
+                    movs.push({
+                        x: movs[ultimo].x + 32,
+                        y: movs[ultimo].y,
+                    })
+                    break;
+                case "O":
+                    movs.push({
+                        x: movs[ultimo].x - 32,
+                        y: movs[ultimo].y,
+                    })
+                    break;
+                default:
+                    console.log("error lol")
+                    break;
+            }
+            // console.log(movs)
+        })
+        return movs
+    })
+    return resultado
 }
 
 calcularCasillasYObtenerCentro()
