@@ -12,9 +12,11 @@
     <main>
         <article>
             <h3 class="neonText">Entrada</h3>
-            <label for="tamTablero">
-                Tamaño del tablero: 11 casillas<sup>2</sup> para un total de 121 casillas.
-            </label>
+            <p>
+                Tamaño del tablero: 21 casillas<sup>2</sup> para un total de 441 casillas.
+                <br>
+                Casilla inicial: (0 ,0)
+            </p>
             <label for="movimientos">
                 Cantidad de simulaciones a realizar:
             </label>
@@ -25,13 +27,21 @@
         <hr>
         <article>
             <h3 class="neonText">Lista de simulaciones</h3>
+            <ul id="lista_simulaciones">
+            </ul>
         </article>
         <hr>
         <article>
             <h3 class="neonText">Salida</h3>
             <p id="casillasInf"></p>
-            <canvas id="tablero" width="640" height="640"></canvas>
-            <button onclick="nextTurn()">Siguiente turno</button>
+            <button onclick="animacion()">Siguiente turno</button>
+            <div style="position: relative;">
+                <canvas id="tablero" width="672" height="672"
+                    style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+                <canvas id="layer_movimientos" width="672" height="672"
+                    style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+            </div>
+            <!-- <canvas id="tablero" width="672" height="672"></canvas> -->
         </article>
     </main>
 </body>
