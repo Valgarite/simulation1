@@ -14,9 +14,6 @@ const canvas = document.getElementById("tablero")
 const canvas2 = document.getElementById("layer-movimientos")
 const canvas3 = document.getElementById("sprites")
 
-const spriteSheet = new Image()
-spriteSheet.src = 'tiles.png'
-
 const rick = new Image()
 rick.src = "rick.png"
 const beer = new Image()
