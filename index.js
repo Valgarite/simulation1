@@ -1,6 +1,5 @@
 //TODO:
-//+FUNCIÓN QUE CAMBIE TAMAÑO DEL TABLERO Y ACTUALICE EL DOM. HECHO
-//+REALIZAR LA SIMULACIÓN
+
 //+CALCULAR LA PROBABILIDAD
 //+PONERLO MÁS BONITO CLARO QUE SÍ
 //+SI ME SOBRA EL TIEMPO HACER CADA MOVIMIENTO ANIMADO
@@ -9,47 +8,39 @@ var pixeles = 0
 var size = 32
 var pixelesTotales
 var centro = { x: 0, y: 0 }
+var exitos = 0
+var simulacionesTotales = 0
 const canvas = document.getElementById("tablero")
-const canvas2 = document.getElementById("layer_movimientos")
-
-const nowi = {
-    spriteSelection: { x: 164, y: 3072 },
-    dimentions: { x: 27, y: 32 }
-}
+const canvas2 = document.getElementById("layer-movimientos")
+const canvas3 = document.getElementById("sprites")
 
 const spriteSheet = new Image()
 spriteSheet.src = 'tiles.png'
 
-
-const nowiSheet = new Image()
-nowiSheet.src = 'nowisprite.png'
+const rick = new Image()
+rick.src = "rick.png"
+const beer = new Image()
+beer.src = "beer.png"
 
 var simulacionesDibujo
-//console.log(centro)
 
 calcularCasillasYObtenerCentro()
 laMagia()
 
 function laMagia() {
-    const cantidad = document.getElementById("movimientos")
-    const movidas = getMovimientos(parseInt(cantidad.value))
+    const cantidad = parseInt(document.getElementById("movimientos").value)
+    const movidas = getMovimientos(cantidad)
+    simulacionesTotales = cantidad
     //console.log(movidas)
     const simMovidas = movimientoAPixeles(centro.x, centro.y, movidas)
-    console.log(simMovidas)
-    conseguirFinal(simMovidas)
+    // console.log(simMovidas)
+    // conseguirFinal(simMovidas)
     simulacionesDibujo = pixelInicioDibujo(simMovidas)
     console.log(simulacionesDibujo)
-    llenar_lista_simulaciones(simulacionesDibujo)
-    //descomentar para probar:
-    // dibujarSimulacion(simulacionesDibujo, 0) //cambiar índice 0 por el valor de la carta escogida
-    // dibujarMovimiento(simMovidas, 0)
-    // dibujarMovimiento(simMovidas, 1)
+    llenarListaSimulaciones(simulacionesDibujo)
 }
 
 function crearCanvas() {
-    //console.log(pixeles)
-    //console.log(pixelesTotales)
-
     const ctx = canvas.getContext("2d")
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -62,15 +53,8 @@ function crearCanvas() {
         ctx.lineTo(pixelesTotales, index)
     }
 
-    ctx.drawImage(spriteSheet, 192, 0, 64, 64, 128, 320, 64, 64);
-    ctx.drawImage(spriteSheet, 128, 0, 64, 64, 128, 384, 64, 64);
-    // ctx.drawImage(nowiSheet, 164, 3072, nowiSize.x, nowiSize.y, centro.x, centro.y, nowiSize.x, nowiSize.y)
-    drawMySprite(ctx, nowiSheet, nowi.spriteSelection, centro, nowi.dimentions)
-
     ctx.moveTo(centro.x, centro.y)
     ctx.lineTo(centro.x + size, centro.y + size)
-
-
     ctx.closePath()
     ctx.strokeStyle = "#f00"
     return ctx.stroke()
@@ -82,24 +66,33 @@ function dibujarSimulacion(selection) {
     ctx.clearRect(0, 0, canvas2.width, canvas2.height);
     const seleccionada = simulacionesDibujo[selection]
     console.log(seleccionada)
-    seleccionada.forEach((sim, i) => {
-        ctx.beginPath()
-        console.log(sim)
-        ctx.moveTo(sim.x, sim.y)
-        ctx.lineTo(seleccionada[i + 1].x, seleccionada[i + 1].y)
+    const posFinal = seleccionada[seleccionada.length - 1]
+    console.log(posFinal)
+    const copyCat = document.getElementById("copycat")
+    copyCat.innerHTML = document.getElementById("sim#" + selection).innerHTML
 
-        ctx.strokeStyle = `rgb(0, ${0+255*i*0.1}, ${255-255*i*0.1})`
+    seleccionada.forEach((pos, i) => {
+        const nextPos = seleccionada[i + 1]
+        ctx.beginPath()
+        try {
+            ctx.moveTo(pos.x, pos.y)
+            ctx.lineTo(nextPos.x, nextPos.y)
+        } catch (error) {
+            console.log(error)
+        }
+        ctx.strokeStyle = `rgb(0, ${0 + 255 * i * 0.1}, ${255 - 255 * i * 0.1})`
         ctx.closePath()
         return ctx.stroke()
     })
-    return
-}
+    console.log(posFinal)
+    const cntx = canvas3.getContext("2d")
+    cntx.beginPath()
+    cntx.clearRect(0, 0, pixelesTotales, pixelesTotales)
+    drawMySprite(cntx, rick, { x: 0, y: 0 }, posFinal, { x: 105, y: 140 })
+    drawMySprite(cntx, beer, { x: 0, y: 0 }, { x: centro.x + 16, y: centro.y + 16 }, { x: 32, y: 32 }) //seguro hay una forma más bonita de pasar algunos parámetros pero no me voy a poner a hacerlo XD
+    cntx.closePath()
 
-function conseguirFinal(simulaciones) {
-    simulaciones.forEach(movidas => {
-        const final = movidas[movidas.length - 1]
-        console.log("Casilla final: (", final.x / 32, ", ", final.y / 32, ")")
-    });
+    return
 }
 
 function pixelInicioDibujo(simulaciones) {
@@ -108,20 +101,22 @@ function pixelInicioDibujo(simulaciones) {
         return simulacion.map(coordenadas => {
             // console.log(coordenadas)
             return {
-                x: coordenadas.x + size/2,
-                y: coordenadas.y + size/2
+                x: coordenadas.x + size / 2,
+                y: coordenadas.y + size / 2
             }
         })
     })
     return sumas
 }
 
-function drawMySprite(cntx, sprite, spriteSelection, positionInCanvas, dimentions) {
-    cntx.drawImage(sprite, spriteSelection.x, spriteSelection.y, dimentions.x, dimentions.y, positionInCanvas.x, positionInCanvas.y, dimentions.x, dimentions.y)
+function drawMySprite(ctx, sprite, spriteSelection, positionInCanvas, dimentions) {
+    console.log("dibujando en: ", positionInCanvas)
+    ctx.drawImage(sprite, spriteSelection.x, spriteSelection.y, dimentions.x, dimentions.y, positionInCanvas.x - size / 2, positionInCanvas.y - size / 2, size, size)
+    return
 }
 
 function calcularCasillasYObtenerCentro() {
-    pixeles = 672
+    pixeles = size * 21 //672
     pixelesTotales = pixeles + size
     //console.log(pixeles, pixelesTotales)
     casillas = pixeles / size
@@ -183,24 +178,24 @@ function movimientoAPixeles(xInicial, yInicial, simulaciones) {
                 case "N":
                     movs.push({
                         x: movs[ultimo].x,
-                        y: movs[ultimo].y + 32,
+                        y: movs[ultimo].y + size,
                     })
                     break;
                 case "S":
                     movs.push({
                         x: movs[ultimo].x,
-                        y: movs[ultimo].y - 32,
+                        y: movs[ultimo].y - size,
                     })
                     break;
                 case "E":
                     movs.push({
-                        x: movs[ultimo].x + 32,
+                        x: movs[ultimo].x + size,
                         y: movs[ultimo].y,
                     })
                     break;
                 case "O":
                     movs.push({
-                        x: movs[ultimo].x - 32,
+                        x: movs[ultimo].x - size,
                         y: movs[ultimo].y,
                     })
                     break;
@@ -215,21 +210,56 @@ function movimientoAPixeles(xInicial, yInicial, simulaciones) {
     return resultado
 }
 
-function llenar_lista_simulaciones(sims) {
-    const lista_simulaciones = document.getElementById('lista_simulaciones')
+function llenarListaSimulaciones(sims) {
+    const listaSimulaciones = document.getElementById('lista-simulaciones')
+    listaSimulaciones.innerHTML = "" //Vaciado
 
-    //TODO: arreglar este bucle y averiguar porqué no sirve
-    while (1 < lista_simulaciones.length) {
-        //Este bucle vacía las opciones del select en cada cambio.
-        lista_simulaciones.remove(1)
-    }
+    exitos = 0
 
     sims.forEach((simulacion, i) => {
         const sim = simulacion[simulacion.length - 1]
         const option = document.createElement('li');
-        option.innerText = 'SIM #' + (i + 1) + ': ' + ((sim.x  - 10 * 32) / 32 - 0.5) + ", " + ((sim.y - 10 * 32) / 32 - 0.5)*-1
-        option.value = i
+        const cateto1 = sim.x - size * 10 - size / 2
+        const cateto2 = sim.y - size * 10 - size / 2
+        const desplazamiento = (Math.abs(cateto1) + Math.abs(cateto2)) / size
+
+        option.innerHTML = `<h5>SIM # ${(i + 1)}</h5>
+        <h6>Posición final: ${((sim.x - size * 10) / size - 0.5)}, ${((sim.y - size * 10) / size - 0.5) * -1}</h6>
+        <h6>Desplazamiento desde el bar: ${desplazamiento}</h6>`
+        if (desplazamiento == 2) {
+            exitos += 1
+        }
+        option.className = "sim-card"
+        option.id = "sim#" + i
         option.addEventListener("click", (event) => { console.log(i); dibujarSimulacion(i) })
-        lista_simulaciones.append(option)
+        listaSimulaciones.append(option)
     });
+
+    //el clg más útil de la galaxia:
+    // console.log(exitos, simulacionesTotales)
+    const mensajeProb = document.getElementById("casillaInf1")
+    const mensajeRes = document.getElementById("casillaInf2")
+    try {
+        const res = Math.floor(exitos / simulacionesTotales * 100)
+        mensajeProb.innerText = "Probabilidades de haber quedado a dos casillas: " + res + "%"
+        mensajeRes.innerText = "Simulaciones que quedaron a dos casillas: " + exitos
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+// Obtener el campo de entrada
+const input = document.getElementById("movimientos");
+
+// Agregar un evento de escucha para el evento "input"
+input.addEventListener("input", function () {
+    // Obtener el valor ingresado por el usuario
+    const value = parseInt(input.value);
+
+    // Validar si el valor cumple con los criterios
+    if (isNaN(value) || value > 1000) {
+        input.value = 0
+    } else if (value < 0) {
+        input.value = 1000
+    }
+});

@@ -1,21 +1,111 @@
-*{
-    margin:0;
+* {
+    margin: 0;
+    padding: 0;
     font-family: 'Courier New', Courier, monospace;
-    color:white
+    font-size: 0.95em;
+    color: white
 }
-html{
+
+html {
     background-color: rgb(0, 0, 0);
+    max-height: 768px;
 }
-input{
+
+input {
     color: black;
 }
 
-select{
-    color:black;
-}
-option{
+select {
     color: black;
 }
+
+option {
+    color: black;
+}
+
+button {
+    color: black;
+}
+
+/* layout */
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+.bar {
+    /* background-color: rgb(89, 81, 131); */
+    color: #1abc9c;
+
+    border-radius: 4px;
+    border: 2px solid #fff;
+    background-color: transparent;
+}
+
+#leftbar {
+    /* background-color: rgb(255, 255, 134); */
+    width: 25%;
+    order: 0;
+}
+
+#view {
+    width: 50%;
+    order: 1;
+}
+
+canvas {
+    width: 100%;
+}
+
+#output {
+    background-color: purple;
+    width: 25%;
+    order: 2;
+}
+
+/* simlist */
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    border-radius: 1em;
+
+    font-size: 1.5em;
+}
+
+.sim-card {
+    background-color: #0000ff;
+    transition: 0.5s;
+    /* padding defines the width of the red gradient background (2) */
+    padding: .25em;
+
+    /* border-width defines the width the blue gradient background (3) */
+    border: .25em solid transparent;
+    border-color: rgb(100, 100, 100);
+    margin-top: 0.5em;
+}
+
+.sim-card:hover {
+    background-color: red;
+}
+
+#sim-list {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+/* canvas */
+#fondo {
+    background-image: url("los\ santos.png");
+    background-attachment: local;
+    min-width: 100%;
+    max-width: 672;
+    opacity: 0.33;
+    background-repeat: no-repeat;
+}
+
 .neonText {
     color: #fff;
     text-shadow:
@@ -27,4 +117,4 @@ option{
         0 0 92px #00ff00,
         0 0 102px #00ff00,
         0 0 151px #00ff00;
-  }
+}
