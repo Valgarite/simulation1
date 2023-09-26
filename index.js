@@ -88,7 +88,7 @@ function dibujarSimulacion(selection) {
         ctx.moveTo(sim.x, sim.y)
         ctx.lineTo(seleccionada[i + 1].x, seleccionada[i + 1].y)
 
-        ctx.strokeStyle = "#0f0"
+        ctx.strokeStyle = `rgb(0, ${0+255*i*0.1}, ${255-255*i*0.1})`
         ctx.closePath()
         return ctx.stroke()
     })
@@ -108,8 +108,8 @@ function pixelInicioDibujo(simulaciones) {
         return simulacion.map(coordenadas => {
             // console.log(coordenadas)
             return {
-                x: coordenadas.x,
-                y: coordenadas.y + 32
+                x: coordenadas.x + size/2,
+                y: coordenadas.y + size/2
             }
         })
     })
@@ -227,9 +227,9 @@ function llenar_lista_simulaciones(sims) {
     sims.forEach((simulacion, i) => {
         const sim = simulacion[simulacion.length - 1]
         const option = document.createElement('li');
-        option.innerText = 'SIM #' + (i + 1) + ': ' + (sim.x / 32) + ", " + (sim.y / 32)
+        option.innerText = 'SIM #' + (i + 1) + ': ' + ((sim.x  - 10 * 32) / 32 - 0.5) + ", " + ((sim.y - 10 * 32) / 32 - 0.5)*-1
         option.value = i
-        option.addEventListener("onclick", (event) => { console.log(i); dibujarSimulacion(i) })
+        option.addEventListener("click", (event) => { console.log(i); dibujarSimulacion(i) })
         lista_simulaciones.append(option)
     });
 }
