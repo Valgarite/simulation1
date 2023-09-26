@@ -69,7 +69,11 @@ function dibujarSimulacion(selection) {
     const posFinal = seleccionada[seleccionada.length - 1]
     console.log(posFinal)
     const copyCat = document.getElementById("copycat")
-    copyCat.innerHTML = document.getElementById("sim#" + selection).innerHTML
+    const copied = document.getElementById("sim#" + selection)
+    copyCat.innerHTML = copied.innerHTML
+    copyCat.className = copied.className
+    copyCat.focus()
+    
 
     seleccionada.forEach((pos, i) => {
         const nextPos = seleccionada[i + 1]

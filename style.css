@@ -58,7 +58,7 @@ canvas {
 }
 
 #output {
-    background-color: purple;
+    /* background-color: purple; */
     width: 25%;
     order: 2;
 }
@@ -76,7 +76,7 @@ li {
 }
 
 .sim-card {
-    background-color: #0000ff;
+    background-color: #47476d;
     transition: 0.5s;
     /* padding defines the width of the red gradient background (2) */
     padding: .25em;
@@ -87,14 +87,20 @@ li {
     margin-top: 0.5em;
 }
 
-.sim-card:hover {
-    background-color: red;
+.sim-card:hover{
+    background-color: rgb(32, 116, 32);
+}
+
+#copycat{
+    background-color: rgb(32, 116, 32);
 }
 
 #sim-list {
     max-height: 400px;
     overflow-y: scroll;
 }
+
+
 
 /* canvas */
 #fondo {
