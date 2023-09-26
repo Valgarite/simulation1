@@ -7,6 +7,7 @@ var pixelesTotales
 var centro = { x: 0, y: 0 }
 var exitos = 0
 var simulacionesTotales = 0
+var simsMovimientos = []
 const canvas = document.getElementById("tablero")
 const canvas2 = document.getElementById("layer-movimientos")
 const canvas3 = document.getElementById("sprites")
@@ -24,13 +25,14 @@ laMagia()
 function laMagia() {
     const cantidad = parseInt(document.getElementById("movimientos").value)
     const movidas = getMovimientos(cantidad)
+    simsMovimientos = movidas
     simulacionesTotales = cantidad
     //console.log(movidas)
     const simMovidas = movimientoAPixeles(centro.x, centro.y, movidas)
     // console.log(simMovidas)
     // conseguirFinal(simMovidas)
     simulacionesDibujo = pixelInicioDibujo(simMovidas)
-    console.log(simulacionesDibujo)
+    // console.log(simulacionesDibujo)
     llenarListaSimulaciones(simulacionesDibujo)
 }
 
@@ -59,15 +61,28 @@ function dibujarSimulacion(selection) {
 
     ctx.clearRect(0, 0, canvas2.width, canvas2.height);
     const seleccionada = simulacionesDibujo[selection]
-    console.log(seleccionada)
+    // console.log(seleccionada)
     const posFinal = seleccionada[seleccionada.length - 1]
-    console.log(posFinal)
+    // console.log(posFinal)
     const copyCat = document.getElementById("copycat")
     const copied = document.getElementById("sim#" + selection)
     copyCat.innerHTML = copied.innerHTML
     copyCat.className = copied.className
     copyCat.focus()
-    
+
+    const listaDirecciones = document.getElementById("direcciones")
+    const dirInversa = simsMovimientos[selection].map((movida) => {
+        // console.log(movida)
+        if (movida == "S") {
+            return "N"
+        } else if (movida == "N") {
+            return "S"
+        }else{
+            return movida
+        }
+    })
+    // console.log(dirInversa)
+    listaDirecciones.innerText = "Direcciones tomadas: " + dirInversa
 
     seleccionada.forEach((pos, i) => {
         const nextPos = seleccionada[i + 1]
@@ -76,13 +91,13 @@ function dibujarSimulacion(selection) {
             ctx.moveTo(pos.x, pos.y)
             ctx.lineTo(nextPos.x, nextPos.y)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         ctx.strokeStyle = `rgb(0, ${0 + 255 * i * 0.1}, ${255 - 255 * i * 0.1})`
         ctx.closePath()
         return ctx.stroke()
     })
-    console.log(posFinal)
+    // console.log(posFinal)
     const cntx = canvas3.getContext("2d")
     cntx.beginPath()
     cntx.clearRect(0, 0, pixelesTotales, pixelesTotales)
@@ -108,7 +123,7 @@ function pixelInicioDibujo(simulaciones) {
 }
 
 function drawMySprite(ctx, sprite, spriteSelection, positionInCanvas, dimentions) {
-    console.log("dibujando en: ", positionInCanvas)
+    // console.log("dibujando en: ", positionInCanvas)
     ctx.drawImage(sprite, spriteSelection.x, spriteSelection.y, dimentions.x, dimentions.y, positionInCanvas.x - size / 2, positionInCanvas.y - size / 2, size, size)
     return
 }
@@ -229,7 +244,7 @@ function llenarListaSimulaciones(sims) {
         }
         option.className = "sim-card"
         option.id = "sim#" + i
-        option.addEventListener("click", (event) => { console.log(i); dibujarSimulacion(i) })
+        option.addEventListener("click", (event) => { dibujarSimulacion(i) })
         listaSimulaciones.append(option)
     });
 
