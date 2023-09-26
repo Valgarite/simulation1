@@ -1,3 +1,5 @@
+//Hecho por Carlos Gutiérrez V30.064.934 para Simulación de Sistemas en la sección N1113
+
 var casillas = 0
 var pixeles = 0
 var size = 32

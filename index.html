@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viaje del borracho</title>
+    <title>Problema del ebrio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,29 +14,29 @@
 
             <article id="entrada">
                 <h3 class="neonText">Entrada</h3>
-            <p>
-                Tamaño del tablero: 21 casillas<sup>2</sup> para un total de 441 casillas.
-                <br>
-                Se realizarán 10 movimientos aleatorios, cada uno dirigido hacia alguna de las cuatro direcciones
-                cardinales.
-                <br>
-                Casilla inicial: (0 ,0)
-            </p>
-            <label for="movimientos">
-                Cantidad de simulaciones a realizar:
-            </label>
-            <input type="number" name="cantMovimientos" id="movimientos" value="1">
-            <button onclick="laMagia()">Comenzar</button>
+                <p>
+                    Tamaño del tablero: 21 casillas<sup>2</sup> para un total de 441 casillas.
+                    <br>
+                    Se realizarán 10 movimientos aleatorios, cada uno dirigido hacia alguna de las cuatro direcciones
+                    cardinales.
+                    <br>
+                    Casilla inicial: (0 ,0)
+                </p>
+                <label for="movimientos">
+                    Cantidad de simulaciones a realizar:
+                </label>
+                <input type="number" name="cantMovimientos" id="movimientos" value="1">
+                <button onclick="laMagia()">Comenzar</button>
 
-        </article>
-
-        <h3 class="neonText" id="simList">Lista de simulaciones</h3>
-        <article id="sim-list">
-            <h6>Cliquee alguna para cargarla</h6>
-            <ul id="lista-simulaciones">
-            </ul>
-        </article>
-    </div>
+            </article>
+            <hr>
+            <h3 class="neonText" id="simList">Lista de simulaciones</h3>
+            <article id="sim-list">
+                <h6>Cliquee alguna para cargarla</h6>
+                <ul id="lista-simulaciones">
+                </ul>
+            </article>
+        </div>
         <article class="bar" id="output">
             <h3 class="neonText">Salida</h3>
             <div id="infoSim">
@@ -47,6 +47,10 @@
             </div>
             <h3 id="casillaInf1">Probabilidades de haber quedado a dos casillas: 0%</h3>
             <h3 id="casillaInf2">Simulaciones que quedaron a dos casillas: 0</h3>
+            <br>
+            <hr>
+            <br>
+            <h5>Hecho por <b>Carlos Gutiérrez V30.064.934</b> para Simulación de Sistemas en la sección N1113</h5>
         </article>
         <article id="view">
             <h3 class="neonText">Vista</h3>
